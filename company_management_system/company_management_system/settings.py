@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "projects",
     "performance_reviews",
     "rest_framework_simplejwt",
+    "drf_yasg",
 ]
 
 MIDDLEWARE = [
