@@ -1,0 +1,42 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Change working directory
+        run: cd company_management_system
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r ./company_management_system/requirements.txt
+
+      - name: Run migrations
+        run: |
+          python ./company_management_system/manage.py migrate
+
+      - name: Run unit tests
+        run: |
+          python ./company_management_system/manage.py test
+
+      - name: Run integration tests
+        run: |
+          python ./company_management_system/manage.py test accounts.integration_tests companies.integration_tests performance_reviews.integration_tests
